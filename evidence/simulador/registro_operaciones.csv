@@ -1,0 +1,10 @@
+﻿fecha,modo,operacion,metodo,endpoint,codigo_http,resultado,tiempo_ms
+2026-11-25T13:25:36-06:00,Simulador local,Verificar conexión (GET /restconf),GET,http://127.0.0.1:34061/restconf,200,OK,1.7
+2026-11-25T13:25:36-06:00,Simulador local,Consultar interfaces,GET,http://127.0.0.1:34061/restconf/data/ietf-interfaces:interfaces,200,OK,1.7
+2026-11-25T13:25:36-06:00,Simulador local,Consultar estado de interfaces,GET,http://127.0.0.1:34061/restconf/data/ietf-interfaces:interfaces-state,200,OK,1.9
+2026-11-25T13:25:36-06:00,Simulador local,Cambiar descripción a 'Cambio registrado por la aplicación' en GigabitEthernet0/0/1,PATCH,http://127.0.0.1:34061/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet0%2F0%2F1,204,OK,1.9
+2026-11-25T13:25:36-06:00,Simulador local,Verificar cambio en GigabitEthernet0/0/1 (GET),GET,http://127.0.0.1:34061/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet0%2F0%2F1,200,OK,1.9
+2026-11-25T13:25:36-06:00,Simulador local,Habilitar interfaz (no shutdown) en GigabitEthernet0/0/2,PATCH,http://127.0.0.1:34061/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet0%2F0%2F2,204,OK,1.8
+2026-11-25T13:25:36-06:00,Simulador local,Verificar cambio en GigabitEthernet0/0/2 (GET),GET,http://127.0.0.1:34061/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet0%2F0%2F2,200,OK,1.6
+2026-11-25T13:25:36-06:00,Simulador local,Consultar interfaz NoExiste,GET,http://127.0.0.1:34061/restconf/data/ietf-interfaces:interfaces/interface=NoExiste,404,ERROR (http): No encontrado: el recurso o la interfaz no existe en el dispositivo. Detalle: La interfaz 'NoExiste' no existe en el dispositivo simulado.,1.7
+2026-11-25T13:25:36-06:00,Simulador local,Consultar interfaces,GET,http://127.0.0.1:34061/restconf/data/ietf-interfaces:interfaces,401,ERROR (http): No autorizado: usuario o contraseña incorrectos. Detalle: Autenticación requerida o credenciales incorrectas.,1.8

@@ -1,0 +1,55 @@
+# Resultado de las pruebas automatizadas (ejecución real contra el SIMULADOR local)
+# Fecha: 2026-11-25T19:25:59Z  |  Python 3.12.3  |  Entorno: Linux (desarrollo)
+# Las 5 pruebas 'skipped' son las del dispositivo real: se omiten porque no hay RESTCONF_HOST.
+
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0 -- /home/claude/venv312/bin/python
+rootdir: /home/claude/na
+collecting ... collected 44 items
+
+tests/test_errors.py::test_interfaz_inexistente_404 PASSED               [  2%]
+tests/test_errors.py::test_credenciales_incorrectas_401 PASSED           [  4%]
+tests/test_errors.py::test_json_mal_formado_400 PASSED                   [  6%]
+tests/test_errors.py::test_cuerpo_que_no_cumple_el_modelo_400_y_no_aplica_cambios PASSED [  9%]
+tests/test_errors.py::test_validaciones_del_modelo_en_el_servidor[cuerpo0-IPv4 inv\xe1lida] PASSED [ 11%]
+tests/test_errors.py::test_validaciones_del_modelo_en_el_servidor[cuerpo1-red o de broadcast] PASSED [ 13%]
+tests/test_errors.py::test_validaciones_del_modelo_en_el_servidor[cuerpo2-se superpone] PASSED [ 15%]
+tests/test_errors.py::test_validaciones_del_modelo_en_el_servidor[cuerpo3-no coincide] PASSED [ 18%]
+tests/test_errors.py::test_validaciones_del_modelo_en_el_servidor[cuerpo4-solo lectura] PASSED [ 20%]
+tests/test_errors.py::test_validaciones_del_modelo_en_el_servidor[cuerpo5-desconocido] PASSED [ 22%]
+tests/test_errors.py::test_put_sin_hoja_obligatoria_type_400 PASSED      [ 25%]
+tests/test_errors.py::test_interfaz_protegida_403 PASSED                 [ 27%]
+tests/test_errors.py::test_metodo_no_permitido_405 PASSED                [ 29%]
+tests/test_errors.py::test_content_type_incorrecto_415 PASSED            [ 31%]
+tests/test_errors.py::test_error_interno_500 PASSED                      [ 34%]
+tests/test_errors.py::test_timeout PASSED                                [ 36%]
+tests/test_errors.py::test_sin_conectividad PASSED                       [ 38%]
+tests/test_errors.py::test_respuesta_malformada PASSED                   [ 40%]
+tests/test_errors.py::test_estructura_inesperada_se_reporta PASSED       [ 43%]
+tests/test_errors.py::test_validacion_local_evita_solicitudes_invalidas[192.168.1.256-24] PASSED [ 45%]
+tests/test_errors.py::test_validacion_local_evita_solicitudes_invalidas[192.168.1.0-24] PASSED [ 47%]
+tests/test_errors.py::test_validacion_local_evita_solicitudes_invalidas[224.0.0.5-24] PASSED [ 50%]
+tests/test_errors.py::test_validacion_local_evita_solicitudes_invalidas[10.0.0.1-33] PASSED [ 52%]
+tests/test_errors.py::test_validacion_local_evita_solicitudes_invalidas[abc-24] PASSED [ 54%]
+tests/test_errors.py::test_descripcion_demasiado_larga_se_rechaza_localmente PASSED [ 56%]
+tests/test_get.py::test_descubrimiento_raiz_restconf PASSED              [ 59%]
+tests/test_get.py::test_respuestas_identificadas_como_simulador PASSED   [ 61%]
+tests/test_get.py::test_get_todas_las_interfaces PASSED                  [ 63%]
+tests/test_get.py::test_get_interfaz_individual_codifica_la_clave PASSED [ 65%]
+tests/test_get.py::test_get_estado_operativo PASSED                      [ 68%]
+tests/test_get.py::test_manager_combina_configuracion_y_estado PASSED    [ 70%]
+tests/test_get.py::test_parse_acepta_formato_objeto_de_ios_xe PASSED     [ 72%]
+tests/test_patch.py::test_plan_muestra_la_solicitud_exacta PASSED        [ 75%]
+tests/test_patch.py::test_patch_descripcion_y_verificacion_con_get PASSED [ 77%]
+tests/test_patch.py::test_patch_no_altera_otras_hojas PASSED             [ 79%]
+tests/test_patch.py::test_deshabilitar_y_habilitar_interfaz PASSED       [ 81%]
+tests/test_patch.py::test_put_cambia_direccion_ip PASSED                 [ 84%]
+tests/test_patch.py::test_registro_de_operaciones_sin_contrasenas PASSED [ 86%]
+tests/test_patch.py::test_exportar_historial_csv PASSED                  [ 88%]
+tests/test_real_device.py::test_real_descubrimiento SKIPPED (No hay ...) [ 90%]
+tests/test_real_device.py::test_real_get_interfaces SKIPPED (No hay ...) [ 93%]
+tests/test_real_device.py::test_real_get_interfaz_individual SKIPPED     [ 95%]
+tests/test_real_device.py::test_real_interfaz_inexistente SKIPPED (N...) [ 97%]
+tests/test_real_device.py::test_real_patch_descripcion_y_restauracion SKIPPED [100%]
+
+======================== 39 passed, 5 skipped in 1.24s =========================

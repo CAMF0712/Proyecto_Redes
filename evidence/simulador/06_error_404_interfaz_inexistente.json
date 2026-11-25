@@ -1,0 +1,33 @@
+{
+  "aviso": "SIMULADO: generado contra el simulador RESTCONF local. No es comunicación con un router real ni con Packet Tracer.",
+  "escenario": "P06 Interfaz inexistente",
+  "fecha": "2026-11-25T13:25:36-06:00",
+  "solicitud": {
+    "metodo": "GET",
+    "url": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet9%2F9%2F9",
+    "encabezados": {
+      "Accept": "application/yang-data+json",
+      "Authorization": "Basic <omitido>"
+    },
+    "cuerpo": null
+  },
+  "respuesta": {
+    "codigo_http": 404,
+    "encabezados": {
+      "Content-Type": "application/yang-data+json",
+      "X-Simulator": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+    },
+    "cuerpo": {
+      "ietf-restconf:errors": {
+        "error": [
+          {
+            "error-type": "application",
+            "error-tag": "invalid-value",
+            "error-message": "La interfaz 'GigabitEthernet9/9/9' no existe en el dispositivo simulado."
+          }
+        ]
+      }
+    }
+  },
+  "tiempo_ms": 1.71
+}

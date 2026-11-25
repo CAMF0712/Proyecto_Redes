@@ -1,0 +1,42 @@
+! ============================================================
+! R2 - Cisco ISR4331 (Packet Tracer 9.0.1)
+! Router de transito: 10.0.12.0/30 (R1) y 10.0.23.0/30 (R3)
+! ============================================================
+enable
+configure terminal
+hostname R2
+no ip domain-lookup
+enable secret class
+banner motd #Laboratorio CE-5301 - Acceso solo autorizado#
+!
+interface GigabitEthernet0/0/0
+ description Enlace WAN hacia R1
+ ip address 10.0.12.2 255.255.255.252
+ no shutdown
+ exit
+interface GigabitEthernet0/0/1
+ description Enlace WAN hacia R3
+ ip address 10.0.23.1 255.255.255.252
+ no shutdown
+ exit
+interface GigabitEthernet0/0/2
+ description Sin uso
+ shutdown
+ exit
+interface Loopback0
+ description Identificador del router (router-id OSPF)
+ ip address 2.2.2.2 255.255.255.255
+ exit
+!
+router ospf 1
+ router-id 2.2.2.2
+ network 10.0.12.0 0.0.0.3 area 0
+ network 10.0.23.0 0.0.0.3 area 0
+ network 2.2.2.2 0.0.0.0 area 0
+ exit
+!
+line console 0
+ logging synchronous
+ exit
+end
+copy running-config startup-config

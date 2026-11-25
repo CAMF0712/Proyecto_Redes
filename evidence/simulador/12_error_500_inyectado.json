@@ -1,0 +1,33 @@
+{
+  "aviso": "SIMULADO: generado contra el simulador RESTCONF local. No es comunicación con un router real ni con Packet Tracer.",
+  "escenario": "Error interno inyectado (500)",
+  "fecha": "2026-11-25T13:25:36-06:00",
+  "solicitud": {
+    "metodo": "GET",
+    "url": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces",
+    "encabezados": {
+      "Accept": "application/yang-data+json",
+      "Authorization": "Basic <omitido>"
+    },
+    "cuerpo": null
+  },
+  "respuesta": {
+    "codigo_http": 500,
+    "encabezados": {
+      "Content-Type": "application/yang-data+json",
+      "X-Simulator": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+    },
+    "cuerpo": {
+      "ietf-restconf:errors": {
+        "error": [
+          {
+            "error-type": "application",
+            "error-tag": "operation-failed",
+            "error-message": "Fallo interno inyectado en el simulador (prueba de manejo de errores)."
+          }
+        ]
+      }
+    }
+  },
+  "tiempo_ms": 2.05
+}

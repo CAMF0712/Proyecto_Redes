@@ -1,0 +1,41 @@
+{
+  "aviso": "SIMULADO: generado contra el simulador RESTCONF local. No es comunicación con un router real ni con Packet Tracer.",
+  "escenario": "Cambio de IP con PUT (entrada completa)",
+  "fecha": "2026-11-25T13:25:36-06:00",
+  "solicitud": {
+    "metodo": "PUT",
+    "url": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet0%2F0%2F2",
+    "encabezados": {
+      "Accept": "application/yang-data+json",
+      "Content-Type": "application/yang-data+json",
+      "Authorization": "Basic <omitido>"
+    },
+    "cuerpo": {
+      "ietf-interfaces:interface": [
+        {
+          "name": "GigabitEthernet0/0/2",
+          "description": "Sin uso",
+          "type": "iana-if-type:ethernetCsmacd",
+          "enabled": false,
+          "ietf-ip:ipv4": {
+            "address": [
+              {
+                "ip": "172.16.0.1",
+                "netmask": "255.255.255.0"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "respuesta": {
+    "codigo_http": 204,
+    "encabezados": {
+      "Content-Type": "text/html; charset=utf-8",
+      "X-Simulator": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+    },
+    "cuerpo": null
+  },
+  "tiempo_ms": 1.97
+}

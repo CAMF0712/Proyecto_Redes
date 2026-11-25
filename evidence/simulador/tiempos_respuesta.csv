@@ -1,0 +1,5 @@
+﻿operacion,repeticiones,promedio_ms,mediana_ms,desv_estandar_ms,minimo_ms,p95_ms,maximo_ms
+GET interfaces,50,2.07,2.03,0.37,1.39,2.69,3.18
+GET interfaz individual,50,2.11,1.96,0.8,1.58,2.36,7.43
+PATCH descripción,50,2.24,2.27,0.4,1.56,2.81,3.38
+Cambio completo (PATCH + GET de verificación),50,4.41,4.45,0.51,3.33,5.09,5.57

@@ -1,0 +1,17 @@
+! ============================================================
+! S1 - Cisco 2960-24TT (Packet Tracer 9.0.1)
+! Switch de acceso de LAN1 (capa 2, sin direccion IP)
+! ============================================================
+enable
+configure terminal
+hostname S1
+no ip domain-lookup
+enable secret class
+interface GigabitEthernet0/1
+ description Enlace hacia R1
+ exit
+interface FastEthernet0/1
+ description PC1
+ exit
+end
+copy running-config startup-config

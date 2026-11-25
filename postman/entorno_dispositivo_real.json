@@ -1,0 +1,25 @@
+{
+  "id": "dc72efd2-e5cc-53f2-bbef-0434c71e7a86",
+  "name": "Dispositivo RESTCONF real",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "https://DIRECCION_DEL_DISPOSITIVO:443",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "username",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "password",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}

@@ -1,0 +1,102 @@
+{
+  "_aviso": "DATOS DE SIMULACIÓN. Este conjunto de datos es ficticio: se diseñó a partir del plan de direccionamiento del router R1 del laboratorio, pero NO se obtuvo de Packet Tracer ni de un router real, y no se sincroniza con ellos.",
+  "dispositivo_simulado": {
+    "hostname": "R1-SIM",
+    "plataforma_emulada": "Cisco IOS XE (comportamiento aproximado)",
+    "interfaces_protegidas": [
+      "GigabitEthernet0"
+    ]
+  },
+  "config": [
+    {
+      "name": "GigabitEthernet0",
+      "description": "Gestión fuera de banda (protegida en el simulador)",
+      "type": "iana-if-type:ethernetCsmacd",
+      "enabled": true,
+      "ietf-ip:ipv4": {
+        "address": [
+          {
+            "ip": "192.168.99.1",
+            "netmask": "255.255.255.0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GigabitEthernet0/0/0",
+      "description": "Enlace WAN hacia R2",
+      "type": "iana-if-type:ethernetCsmacd",
+      "enabled": true,
+      "ietf-ip:ipv4": {
+        "address": [
+          {
+            "ip": "10.0.12.1",
+            "netmask": "255.255.255.252"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GigabitEthernet0/0/1",
+      "description": "LAN1 - red de usuarios",
+      "type": "iana-if-type:ethernetCsmacd",
+      "enabled": true,
+      "ietf-ip:ipv4": {
+        "address": [
+          {
+            "ip": "192.168.10.1",
+            "netmask": "255.255.255.0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GigabitEthernet0/0/2",
+      "description": "Sin uso",
+      "type": "iana-if-type:ethernetCsmacd",
+      "enabled": false,
+      "ietf-ip:ipv4": {}
+    },
+    {
+      "name": "Loopback0",
+      "description": "Identificador del router (router-id OSPF)",
+      "type": "iana-if-type:softwareLoopback",
+      "enabled": true,
+      "ietf-ip:ipv4": {
+        "address": [
+          {
+            "ip": "1.1.1.1",
+            "netmask": "255.255.255.255"
+          }
+        ]
+      }
+    }
+  ],
+  "estado_fisico_simulado": {
+    "GigabitEthernet0": {
+      "enlace": true,
+      "phys-address": "00:1e:7a:00:00:00",
+      "speed": 1000000000
+    },
+    "GigabitEthernet0/0/0": {
+      "enlace": true,
+      "phys-address": "00:1e:7a:00:00:01",
+      "speed": 1000000000
+    },
+    "GigabitEthernet0/0/1": {
+      "enlace": true,
+      "phys-address": "00:1e:7a:00:00:02",
+      "speed": 1000000000
+    },
+    "GigabitEthernet0/0/2": {
+      "enlace": false,
+      "phys-address": "00:1e:7a:00:00:03",
+      "speed": 1000000000
+    },
+    "Loopback0": {
+      "enlace": true,
+      "phys-address": "00:00:00:00:00:00",
+      "speed": 8000000000
+    }
+  }
+}

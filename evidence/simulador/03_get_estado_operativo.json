@@ -1,0 +1,42 @@
+{
+  "aviso": "SIMULADO: generado contra el simulador RESTCONF local. No es comunicación con un router real ni con Packet Tracer.",
+  "escenario": "Consulta del estado operativo (interfaces-state)",
+  "fecha": "2026-11-25T13:25:36-06:00",
+  "solicitud": {
+    "metodo": "GET",
+    "url": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces-state/interface=GigabitEthernet0%2F0%2F1",
+    "encabezados": {
+      "Accept": "application/yang-data+json",
+      "Authorization": "Basic <omitido>"
+    },
+    "cuerpo": null
+  },
+  "respuesta": {
+    "codigo_http": 200,
+    "encabezados": {
+      "Content-Type": "application/yang-data+json",
+      "X-Simulator": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+    },
+    "cuerpo": {
+      "ietf-interfaces:interface": [
+        {
+          "name": "GigabitEthernet0/0/1",
+          "type": "iana-if-type:ethernetCsmacd",
+          "admin-status": "up",
+          "oper-status": "up",
+          "last-change": "2026-11-25T19:25:36+00:00",
+          "phys-address": "00:1e:7a:00:00:02",
+          "speed": "1000000000",
+          "statistics": {
+            "discontinuity-time": "2026-11-25T19:25:36+00:00",
+            "in-octets": "1500",
+            "out-octets": "1200",
+            "in-errors": 0,
+            "out-errors": 0
+          }
+        }
+      ]
+    }
+  },
+  "tiempo_ms": 2.19
+}

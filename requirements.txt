@@ -1,0 +1,5 @@
+requests>=2.31
+flask>=3.0
+customtkinter>=5.2
+pytest>=8.0
+pyang>=2.6

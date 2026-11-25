@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Registros locales de la aplicación (se generan al usarla)
+logs/
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

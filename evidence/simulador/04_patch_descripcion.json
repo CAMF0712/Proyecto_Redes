@@ -1,0 +1,31 @@
+{
+  "aviso": "SIMULADO: generado contra el simulador RESTCONF local. No es comunicación con un router real ni con Packet Tracer.",
+  "escenario": "P04 Modificación de la descripción mediante PATCH",
+  "fecha": "2026-11-25T13:25:36-06:00",
+  "solicitud": {
+    "metodo": "PATCH",
+    "url": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet0%2F0%2F1",
+    "encabezados": {
+      "Accept": "application/yang-data+json",
+      "Content-Type": "application/yang-data+json",
+      "Authorization": "Basic <omitido>"
+    },
+    "cuerpo": {
+      "ietf-interfaces:interface": [
+        {
+          "name": "GigabitEthernet0/0/1",
+          "description": "LAN1 - descripción modificada vía RESTCONF"
+        }
+      ]
+    }
+  },
+  "respuesta": {
+    "codigo_http": 204,
+    "encabezados": {
+      "Content-Type": "text/html; charset=utf-8",
+      "X-Simulator": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+    },
+    "cuerpo": null
+  },
+  "tiempo_ms": 2.43
+}

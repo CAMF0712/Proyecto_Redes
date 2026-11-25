@@ -1,0 +1,673 @@
+{
+  "info": {
+    "_postman_id": "12dd7abf-65de-5878-8e5a-dd3d7cb9c038",
+    "name": "CE-5301 RESTCONF - ietf-interfaces",
+    "description": "Colección del proyecto CE-5301 (TEC). Funciona contra el simulador local (entorno 'Simulador RESTCONF local') o contra un dispositivo IOS XE con RESTCONF (entorno 'Dispositivo RESTCONF real'). Los ejemplos de respuesta se generaron con el SIMULADOR, no con un router real. Ejecute las solicitudes 1-4 en orden.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{username}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{password}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "interfaceName",
+      "value": "GigabitEthernet0%2F0%2F1"
+    },
+    {
+      "key": "interfaceNameDecoded",
+      "value": "GigabitEthernet0/0/1"
+    },
+    {
+      "key": "nuevaDescripcion",
+      "value": "LAN1 - descripción modificada vía RESTCONF"
+    }
+  ],
+  "item": [
+    {
+      "name": "Flujo principal",
+      "item": [
+        {
+          "name": "1. GET interfaces",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Contiene ietf-interfaces:interfaces', () => {",
+                  "  pm.expect(pm.response.json()).to.have.property('ietf-interfaces:interfaces');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/yang-data+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "restconf",
+                "data",
+                "ietf-interfaces:interfaces"
+              ]
+            },
+            "description": "Consulta todas las interfaces (modelo ietf-interfaces)."
+          },
+          "response": [
+            {
+              "name": "Ejemplo real del simulador - HTTP 200",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/yang-data+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restconf",
+                    "data",
+                    "ietf-interfaces:interfaces"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/yang-data+json"
+                },
+                {
+                  "key": "X-Simulator",
+                  "value": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+                }
+              ],
+              "body": "{\n  \"ietf-interfaces:interfaces\": {\n    \"interface\": [\n      {\n        \"name\": \"GigabitEthernet0\",\n        \"description\": \"Gestión fuera de banda (protegida en el simulador)\",\n        \"type\": \"iana-if-type:ethernetCsmacd\",\n        \"enabled\": true,\n        \"ietf-ip:ipv4\": {\n          \"address\": [\n            {\n              \"ip\": \"192.168.99.1\",\n              \"netmask\": \"255.255.255.0\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"GigabitEthernet0/0/0\",\n        \"description\": \"Enlace WAN hacia R2\",\n        \"type\": \"iana-if-type:ethernetCsmacd\",\n        \"enabled\": true,\n        \"ietf-ip:ipv4\": {\n          \"address\": [\n            {\n              \"ip\": \"10.0.12.1\",\n              \"netmask\": \"255.255.255.252\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"GigabitEthernet0/0/1\",\n        \"description\": \"LAN1 - red de usuarios\",\n        \"type\": \"iana-if-type:ethernetCsmacd\",\n        \"enabled\": true,\n        \"ietf-ip:ipv4\": {\n          \"address\": [\n            {\n              \"ip\": \"192.168.10.1\",\n              \"netmask\": \"255.255.255.0\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"GigabitEthernet0/0/2\",\n        \"description\": \"Sin uso\",\n        \"type\": \"iana-if-type:ethernetCsmacd\",\n        \"enabled\": false,\n        \"ietf-ip:ipv4\": {}\n      },\n      {\n        \"name\": \"Loopback0\",\n        \"description\": \"Identificador del router (router-id OSPF)\",\n        \"type\": \"iana-if-type:softwareLoopback\",\n        \"enabled\": true,\n        \"ietf-ip:ipv4\": {\n          \"address\": [\n            {\n              \"ip\": \"1.1.1.1\",\n              \"netmask\": \"255.255.255.255\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "2. GET interfaz específica",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const e = [].concat(pm.response.json()['ietf-interfaces:interface'])[0];",
+                  "pm.collectionVariables.set('descripcionOriginal', e.description || '');",
+                  "pm.test('Nombre correcto', () => pm.expect(e.name).to.eql(decodeURIComponent(pm.variables.get('interfaceName'))));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/yang-data+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface={{interfaceName}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "restconf",
+                "data",
+                "ietf-interfaces:interfaces",
+                "interface={{interfaceName}}"
+              ]
+            },
+            "description": "Consulta una interfaz. La '/' del nombre va codificada como %2F (RFC 8040 3.5.3)."
+          },
+          "response": [
+            {
+              "name": "Ejemplo real del simulador - HTTP 200",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/yang-data+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface={{interfaceName}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restconf",
+                    "data",
+                    "ietf-interfaces:interfaces",
+                    "interface={{interfaceName}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/yang-data+json"
+                },
+                {
+                  "key": "X-Simulator",
+                  "value": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+                }
+              ],
+              "body": "{\n  \"ietf-interfaces:interface\": [\n    {\n      \"name\": \"GigabitEthernet0/0/1\",\n      \"description\": \"LAN1 - red de usuarios\",\n      \"type\": \"iana-if-type:ethernetCsmacd\",\n      \"enabled\": true,\n      \"ietf-ip:ipv4\": {\n        \"address\": [\n          {\n            \"ip\": \"192.168.10.1\",\n            \"netmask\": \"255.255.255.0\"\n          }\n        ]\n      }\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "3. PATCH descripción",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/yang-data+json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/yang-data+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface={{interfaceName}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "restconf",
+                "data",
+                "ietf-interfaces:interfaces",
+                "interface={{interfaceName}}"
+              ]
+            },
+            "description": "Modifica solo la descripción (merge). Respuesta esperada: 204 No Content.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ietf-interfaces:interface\": [\n    {\n      \"name\": \"{{interfaceNameDecoded}}\",\n      \"description\": \"{{nuevaDescripcion}}\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Ejemplo real del simulador - HTTP 204",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/yang-data+json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/yang-data+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface={{interfaceName}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restconf",
+                    "data",
+                    "ietf-interfaces:interfaces",
+                    "interface={{interfaceName}}"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ietf-interfaces:interface\": [\n    {\n      \"name\": \"{{interfaceNameDecoded}}\",\n      \"description\": \"{{nuevaDescripcion}}\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/html; charset=utf-8"
+                },
+                {
+                  "key": "X-Simulator",
+                  "value": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+                }
+              ],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "4. GET de verificación",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const e = [].concat(pm.response.json()['ietf-interfaces:interface'])[0];",
+                  "pm.test('La descripción coincide con el cambio', () => {",
+                  "  pm.expect(e.description).to.eql(pm.variables.get('nuevaDescripcion'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/yang-data+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface={{interfaceName}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "restconf",
+                "data",
+                "ietf-interfaces:interfaces",
+                "interface={{interfaceName}}"
+              ]
+            },
+            "description": "Vuelve a consultar la interfaz para comprobar que el cambio se aplicó."
+          },
+          "response": [
+            {
+              "name": "Ejemplo real del simulador - HTTP 200",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/yang-data+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface={{interfaceName}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restconf",
+                    "data",
+                    "ietf-interfaces:interfaces",
+                    "interface={{interfaceName}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/yang-data+json"
+                },
+                {
+                  "key": "X-Simulator",
+                  "value": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+                }
+              ],
+              "body": "{\n  \"ietf-interfaces:interface\": [\n    {\n      \"name\": \"GigabitEthernet0/0/1\",\n      \"description\": \"LAN1 - descripción modificada vía RESTCONF\",\n      \"type\": \"iana-if-type:ethernetCsmacd\",\n      \"enabled\": true,\n      \"ietf-ip:ipv4\": {\n        \"address\": [\n          {\n            \"ip\": \"192.168.10.1\",\n            \"netmask\": \"255.255.255.0\"\n          }\n        ]\n      }\n    }\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Manejo de errores",
+      "item": [
+        {
+          "name": "E1. Interfaz inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/yang-data+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet9%2F9%2F9",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "restconf",
+                "data",
+                "ietf-interfaces:interfaces",
+                "interface=GigabitEthernet9%2F9%2F9"
+              ]
+            },
+            "description": "Recurso que no existe."
+          },
+          "response": [
+            {
+              "name": "Ejemplo real del simulador - HTTP 404",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/yang-data+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet9%2F9%2F9",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restconf",
+                    "data",
+                    "ietf-interfaces:interfaces",
+                    "interface=GigabitEthernet9%2F9%2F9"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/yang-data+json"
+                },
+                {
+                  "key": "X-Simulator",
+                  "value": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+                }
+              ],
+              "body": "{\n  \"ietf-restconf:errors\": {\n    \"error\": [\n      {\n        \"error-type\": \"application\",\n        \"error-tag\": \"invalid-value\",\n        \"error-message\": \"La interfaz 'GigabitEthernet9/9/9' no existe en el dispositivo simulado.\"\n      }\n    ]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "E2. Credenciales incorrectas (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/yang-data+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "restconf",
+                "data",
+                "ietf-interfaces:interfaces"
+              ]
+            },
+            "description": "Autenticación básica con contraseña errónea.",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "clave-incorrecta",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Ejemplo real del simulador - HTTP 401",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/yang-data+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restconf",
+                    "data",
+                    "ietf-interfaces:interfaces"
+                  ]
+                },
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "clave-incorrecta",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/yang-data+json"
+                },
+                {
+                  "key": "WWW-Authenticate",
+                  "value": "Basic realm=\"restconf-simulator\""
+                },
+                {
+                  "key": "X-Simulator",
+                  "value": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+                }
+              ],
+              "body": "{\n  \"ietf-restconf:errors\": {\n    \"error\": [\n      {\n        \"error-type\": \"protocol\",\n        \"error-tag\": \"access-denied\",\n        \"error-message\": \"Autenticación requerida o credenciales incorrectas.\"\n      }\n    ]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "E3. JSON mal formado (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/yang-data+json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/yang-data+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface={{interfaceName}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "restconf",
+                "data",
+                "ietf-interfaces:interfaces",
+                "interface={{interfaceName}}"
+              ]
+            },
+            "description": "Cuerpo que no es JSON válido.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"ietf-interfaces:interface\": [{\"name\": ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Ejemplo real del simulador - HTTP 400",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/yang-data+json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/yang-data+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface={{interfaceName}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restconf",
+                    "data",
+                    "ietf-interfaces:interfaces",
+                    "interface={{interfaceName}}"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"ietf-interfaces:interface\": [{\"name\": ",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/yang-data+json"
+                },
+                {
+                  "key": "X-Simulator",
+                  "value": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+                }
+              ],
+              "body": "{\n  \"ietf-restconf:errors\": {\n    \"error\": [\n      {\n        \"error-type\": \"protocol\",\n        \"error-tag\": \"malformed-message\",\n        \"error-message\": \"JSON mal formado: Expecting value (línea 1, columna 41).\"\n      }\n    ]\n  }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

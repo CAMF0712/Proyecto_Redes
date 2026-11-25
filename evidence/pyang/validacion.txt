@@ -1,0 +1,5 @@
+# Validación de modelos YANG con pyang (ejecución real en el entorno de desarrollo)
+# Fecha: 2026-11-25T19:10:15Z
+# Comando: pyang -p models --strict models/ietf-interfaces.yang models/ietf-ip.yang
+# Versión: pyang 2.7.1
+# Código de salida: 0 (0 = sin errores ni advertencias)

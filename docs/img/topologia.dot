@@ -1,0 +1,18 @@
+graph topologia {
+  graph [rankdir=LR, fontname="DejaVu Sans", nodesep=0.5, bgcolor="white", pad=0.3];
+  node [fontname="DejaVu Sans", fontsize=11, shape=box, style="rounded,filled", fillcolor="#F3F4F6"];
+  edge [fontname="DejaVu Sans", fontsize=9];
+  PC1 [label="PC1\n192.168.10.10/24\nGW .1", fillcolor="#FFFFFF"];
+  S1 [label="S1\n2960"]; S2 [label="S2\n2960"];
+  R1 [label="R1 · ISR4331\nLo0 1.1.1.1", fillcolor="#DBEAFE"];
+  R2 [label="R2 · ISR4331\nLo0 2.2.2.2", fillcolor="#DBEAFE"];
+  R3 [label="R3 · ISR4331\nLo0 3.3.3.3", fillcolor="#DBEAFE"];
+  PC2 [label="PC2\n192.168.20.10/24\nGW .1", fillcolor="#FFFFFF"];
+  PC1 -- S1 [label="Fa0/1"];
+  S1 -- R1 [label="G0/1 — G0/0/1\n192.168.10.1/24"];
+  R1 -- R2 [label="G0/0/0 — G0/0/0\n10.0.12.0/30\n.1        .2"];
+  R2 -- R3 [label="G0/0/1 — G0/0/0\n10.0.23.0/30\n.1        .2"];
+  R3 -- S2 [label="G0/0/1 — G0/1\n192.168.20.1/24"];
+  S2 -- PC2 [label="Fa0/1"];
+  labelloc="b"; label="OSPFv2 proceso 1, área 0 · LAN pasivas";
+}

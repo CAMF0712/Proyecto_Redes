@@ -1,0 +1,41 @@
+{
+  "aviso": "SIMULADO: generado contra el simulador RESTCONF local. No es comunicación con un router real ni con Packet Tracer.",
+  "escenario": "Interfaz protegida (403)",
+  "fecha": "2026-11-25T13:25:36-06:00",
+  "solicitud": {
+    "metodo": "PATCH",
+    "url": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet0",
+    "encabezados": {
+      "Accept": "application/yang-data+json",
+      "Content-Type": "application/yang-data+json",
+      "Authorization": "Basic <omitido>"
+    },
+    "cuerpo": {
+      "ietf-interfaces:interface": [
+        {
+          "name": "GigabitEthernet0",
+          "enabled": false
+        }
+      ]
+    }
+  },
+  "respuesta": {
+    "codigo_http": 403,
+    "encabezados": {
+      "Content-Type": "application/yang-data+json",
+      "X-Simulator": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+    },
+    "cuerpo": {
+      "ietf-restconf:errors": {
+        "error": [
+          {
+            "error-type": "protocol",
+            "error-tag": "access-denied",
+            "error-message": "La interfaz 'GigabitEthernet0' está protegida en el simulador (gestión fuera de banda); no se permite modificarla."
+          }
+        ]
+      }
+    }
+  },
+  "tiempo_ms": 1.8
+}

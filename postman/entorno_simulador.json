@@ -1,0 +1,25 @@
+{
+  "id": "82a7351e-feee-5807-9f76-f371c287e9ba",
+  "name": "Simulador RESTCONF local",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:5000",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "username",
+      "value": "admin",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "password",
+      "value": "admin123",
+      "type": "secret",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}

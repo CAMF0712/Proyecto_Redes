@@ -1,0 +1,36 @@
+digraph arquitectura {
+  graph [rankdir=LR, fontname="DejaVu Sans", fontsize=12, nodesep=0.45, ranksep=0.7, pad=0.3, compound=true, bgcolor="white"];
+  node  [fontname="DejaVu Sans", fontsize=11, shape=box, style="rounded,filled", fillcolor="#F3F4F6", color="#6B7280"];
+  edge  [fontname="DejaVu Sans", fontsize=10, color="#374151"];
+
+  subgraph cluster_app {
+    label="Componente B — Aplicación Python (equipo del estudiante)"; style="rounded"; color="#2563EB"; fontcolor="#1D4ED8";
+    gui   [label="Interfaz gráfica\nCustomTkinter\n(dashboard.py)", fillcolor="#DBEAFE"];
+    mgr   [label="Gestor de interfaces\n(interface_manager.py)\nplan → confirmación → aplicar → GET", fillcolor="#DBEAFE"];
+    val   [label="Validaciones\n(validators.py)", fillcolor="#DBEAFE"];
+    cli   [label="Cliente RESTCONF\n(restconf_client.py)\nrequests · Basic Auth · TLS", fillcolor="#DBEAFE"];
+    log   [label="Registro de operaciones\n(operation_log.py)\nlogs/operaciones.jsonl\n(sin contraseñas)", fillcolor="#E0E7FF"];
+    gui -> mgr; mgr -> val [style=dashed]; mgr -> cli; cli -> log [style=dashed];
+  }
+
+  sim  [label="Modalidad 2: SIMULADOR local\nFlask · simulator/\nietf-interfaces + ietf-ip\nhttp://127.0.0.1:5000\nEncabezado X-Simulator", fillcolor="#FEF3C7", color="#B45309"];
+  real [label="Modalidad 1: dispositivo RESTCONF real\nCisco IOS XE (p. ej. Catalyst 8000V\nde DevNet Sandbox)\nhttps://<host>:443", fillcolor="#DCFCE7", color="#15803D"];
+  yang [label="Modelos YANG\nmodels/*.yang\n(validados con pyang)", shape=note, fillcolor="#FFFFFF"];
+  pm   [label="Postman\npostman/collection.json", fillcolor="#FFFFFF"];
+
+  cli -> sim  [label="HTTP + JSON\napplication/yang-data+json"];
+  cli -> real [label="HTTPS + JSON\nRFC 8040", style=dashed];
+  pm -> sim; pm -> real [style=dashed];
+  yang -> sim [style=dotted, arrowhead=none, label="estructura"];
+
+  subgraph cluster_pt {
+    label="Componente A — Cisco Packet Tracer 9.0.1 (independiente)"; style="rounded,dashed"; color="#6B7280"; fontcolor="#374151";
+    pt [label="R1 — R2 — R3 (ISR4331, OSPF área 0)\nLAN1 192.168.10.0/24 · LAN2 192.168.20.0/24\nConfiguración y verificación por CLI", fillcolor="#F9FAFB"];
+  }
+  pt -> sim [style=invis];
+  op [label="Estudiante", shape=ellipse, fillcolor="#FFFFFF"];
+  op -> gui;
+  op -> pt [label="CLI (show ip interface brief,\nshow running-config)"];
+  nota [label="Sin conexión ni sincronización\nentre Packet Tracer y la aplicación:\nPacket Tracer no implementa RESTCONF", shape=plaintext, fillcolor="white", fontcolor="#B91C1C"];
+  pt -> nota [style=invis];
+}

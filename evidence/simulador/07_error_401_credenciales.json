@@ -1,0 +1,34 @@
+{
+  "aviso": "SIMULADO: generado contra el simulador RESTCONF local. No es comunicación con un router real ni con Packet Tracer.",
+  "escenario": "P07 Autenticación incorrecta",
+  "fecha": "2026-11-25T13:25:36-06:00",
+  "solicitud": {
+    "metodo": "GET",
+    "url": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces",
+    "encabezados": {
+      "Accept": "application/yang-data+json",
+      "Authorization": "Basic <omitido>"
+    },
+    "cuerpo": null
+  },
+  "respuesta": {
+    "codigo_http": 401,
+    "encabezados": {
+      "Content-Type": "application/yang-data+json",
+      "WWW-Authenticate": "Basic realm=\"restconf-simulator\"",
+      "X-Simulator": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+    },
+    "cuerpo": {
+      "ietf-restconf:errors": {
+        "error": [
+          {
+            "error-type": "protocol",
+            "error-tag": "access-denied",
+            "error-message": "Autenticación requerida o credenciales incorrectas."
+          }
+        ]
+      }
+    }
+  },
+  "tiempo_ms": 1.84
+}

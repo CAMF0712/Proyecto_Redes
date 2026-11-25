@@ -1,0 +1,34 @@
+{
+  "aviso": "SIMULADO: generado contra el simulador RESTCONF local. No es comunicación con un router real ni con Packet Tracer.",
+  "escenario": "Método no permitido (405)",
+  "fecha": "2026-11-25T13:25:36-06:00",
+  "solicitud": {
+    "metodo": "DELETE",
+    "url": "{{baseUrl}}/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet0%2F0%2F1",
+    "encabezados": {
+      "Accept": "application/yang-data+json",
+      "Authorization": "Basic <omitido>"
+    },
+    "cuerpo": null
+  },
+  "respuesta": {
+    "codigo_http": 405,
+    "encabezados": {
+      "Content-Type": "application/yang-data+json",
+      "Allow": "GET, HEAD, OPTIONS, PATCH, PUT",
+      "X-Simulator": "RESTCONF-Simulator CE-5301 (no es un dispositivo real)"
+    },
+    "cuerpo": {
+      "ietf-restconf:errors": {
+        "error": [
+          {
+            "error-type": "protocol",
+            "error-tag": "operation-not-supported",
+            "error-message": "Método DELETE no soportado en /restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet0/0/1. Permitidos: GET, HEAD, OPTIONS, PATCH, PUT."
+          }
+        ]
+      }
+    }
+  },
+  "tiempo_ms": 1.88
+}
