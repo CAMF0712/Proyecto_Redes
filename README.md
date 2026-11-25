@@ -7,6 +7,8 @@ una API **RESTCONF** (RFC 8040) usando los modelos YANG **ietf-interfaces** (RFC
 e **ietf-ip** (RFC 8344). Puede trabajar contra un **dispositivo Cisco IOS XE real**
 o contra un **simulador local** claramente identificado.
 
+> **¿Eres del equipo?** Empieza por la [**Guía del equipo**](GUIA_DEL_EQUIPO.md): qué se hizo, cómo probarlo y qué falta.
+
 > **Aviso importante.** Cisco Packet Tracer no implementa RESTCONF (se comprobó en
 > Packet Tracer 9.0.1, ver [`lab/prueba_restconf_packet_tracer.md`](lab/prueba_restconf_packet_tracer.md)).
 > Por eso el laboratorio de Packet Tracer y la aplicación son **componentes
