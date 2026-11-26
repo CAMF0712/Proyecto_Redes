@@ -108,7 +108,10 @@ def test_sin_conectividad():
     with socket.socket() as s:  # puerto libre en el que nadie escucha
         s.bind(("127.0.0.1", 0))
         puerto = s.getsockname()[1]
-    c = RestconfClient("127.0.0.1", puerto, "admin", "x", use_https=False, timeout=2)
+    # En Windows, la conexion a un puerto cerrado se reintenta durante ~2 s
+    # antes de ser rechazada; el tiempo de espera debe ser mayor que eso para
+    # que el error se clasifique como falta de conectividad y no como timeout.
+    c = RestconfClient("127.0.0.1", puerto, "admin", "x", use_https=False, timeout=10)
     res = c.discover()
     assert not res.ok and res.error_kind == "connection"
 
