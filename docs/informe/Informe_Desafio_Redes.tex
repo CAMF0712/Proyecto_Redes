@@ -211,6 +211,13 @@
   howpublished = {\url{https://github.com/CAMF0712/Proyecto_Redes}},
   note         = {Repositorio del código, laboratorio y evidencias}
 }
+@misc{devnet_faq,
+  author       = {{Cisco DevNet}},
+  title        = {DevNet Sandbox FAQs: cost, access, and troubleshooting},
+  year         = {2026},
+  howpublished = {\url{https://developer.cisco.com/docs/sandbox/faqs}},
+  note         = {Consultado el 25 de noviembre de 2026}
+}
 \end{filecontents*}
 
 \documentclass[12pt,letterpaper]{article}
@@ -616,7 +623,7 @@ Se desarrolló una aplicación en Python que consulta información de interfaces
   \item \textbf{Laboratorio de red en Cisco Packet Tracer 9.0.1:} representa la topología, se configura por CLI y se usa para validar direccionamiento, enrutamiento y conectividad.
   \item \textbf{Entorno RESTCONF:} la aplicación puede trabajar en modo \textit{RESTCONF real} contra un dispositivo compatible o en modo \textit{simulador local}, un servidor de pruebas que reproduce el comportamiento necesario y que se identifica como simulación en cada respuesta y en la interfaz gráfica.
 \end{enumerate}
-Se verificó que los routers de Packet Tracer no implementan RESTCONF (Sección~\ref{sec:limitaciones}). Por ello, la aplicación no se conecta al laboratorio y los resultados de API de este informe provienen del simulador.
+Se verificó que los routers de Packet Tracer no implementan RESTCONF (Sección~\ref{sec:limitaciones}). Por ello, la aplicación no se conecta al laboratorio. Los resultados de API provienen del simulador local y, además, de un router Catalyst 8000v real con IOS XE 17.12.02 disponible en Cisco DevNet Sandbox (Sección~\ref{sec:real}).
 
 \subsection{Arquitectura del sistema}
 \begin{figure}[H]
@@ -932,6 +939,81 @@ Los errores se devuelven con la estructura del RFC 8040. Por ejemplo, la consult
 
 \textbf{Pruebas automatizadas.} La ejecución de \texttt{python -m pytest -v} terminó con \textbf{39 pruebas aprobadas y 5 omitidas}. Las omitidas son las pruebas contra un dispositivo real, que se ejecutan solo si se configura la variable \texttt{RESTCONF\_HOST}. La misma suite se ejecutó con Python 3.12 y con Python 3.10 con el mismo resultado. La colección de Postman se comprobó reproduciendo sus siete solicitudes contra el simulador; todas devolvieron el código esperado.
 
+\subsection{Resultados contra un dispositivo IOS XE real}\label{sec:real}
+
+\textbf{Entorno.} Para validar el modo \textit{RESTCONF real} se reservó el sandbox \textit{IOS XE on Catalyst 8000v} de Cisco DevNet, que ofrece un router virtual Catalyst 8000v con IOS XE 17.12.02 y NETCONF y RESTCONF habilitados. Es un entorno privado bajo reserva, con una duración máxima de dos días. Sus equipos usan direcciones privadas, por lo que solo son alcanzables mediante VPN \parencite{devnet_faq}. Se utilizó el cliente OpenConnect, alternativa de código abierto a Cisco Secure Client, cuya descarga requiere un contrato de soporte \parencite{devnet_faq}. Las pruebas se realizaron el 25 de noviembre de 2026.
+
+Durante la conexión, OpenConnect autenticó correctamente pero no logró crear el adaptador de red virtual en Windows (\texttt{Set up tun device failed}), porque el nombre de interfaz que genera a partir del servidor era demasiado largo. Se resolvió asignando un nombre corto de interfaz en el perfil. Con la VPN activa, se comprobó con \texttt{Test-NetConnection} que el router (10.10.20.48) aceptaba conexiones en los puertos TCP 443 (RESTCONF) y 830 (NETCONF).
+
+\textbf{Primera consulta.} Un GET a \texttt{/restconf/data/ietf-interfaces:interfaces} con \texttt{curl} devolvió HTTP 200 con siete interfaces. La respuesta no incluyó el encabezado \texttt{X-Simulator} y el servidor se identificó como \texttt{openresty}, lo que confirma que respondió el dispositivo real y no el simulador. El JSON tuvo la misma estructura que en el simulador, definida por \texttt{ietf-interfaces} e \texttt{ietf-ip}. También se observaron diferencias que el modelo admite: \texttt{Loopback0} no incluye la hoja opcional \texttt{description}, el tipo de las interfaces lógicas es \texttt{softwareLoopback} y el contenedor de presencia \texttt{ietf-ip:ipv6} aparece vacío.
+
+\textbf{Pruebas automatizadas.} Las cinco pruebas de \texttt{tests/test\_real\_device.py} terminaron aprobadas en 5,38~s: descubrimiento, consulta de todas las interfaces, consulta individual, interfaz inexistente y PATCH de la descripción con restauración, esta última sobre \texttt{Loopback109}. Con ello, el conjunto completo suma 44 de 44 pruebas aprobadas: 39 contra el simulador y 5 contra el router real. Se registraron cuatro advertencias \texttt{InsecureRequestWarning}, esperables porque se desactivó la verificación del certificado autofirmado del sandbox.
+
+\textbf{Operación con la aplicación.} Se ejecutó \texttt{python main.py --modo real} sin modificar el código. La franja superior cambia a azul e identifica el dispositivo real (Figura~\ref{fig:real_panel}). La Tabla~\ref{tab:api_real} resume las solicitudes registradas en el historial de la aplicación.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\textwidth]{cisco_simulador}
+  \caption{Aplicación conectada en modo RESTCONF real al Catalyst 8000v de DevNet Sandbox.}
+  \label{fig:real_panel}
+\end{figure}
+
+\begin{longtable}{p{0.5cm}p{6.6cm}p{1.6cm}p{1.3cm}p{2.4cm}}
+\caption{Solicitudes ejecutadas contra el router real (historial de la aplicación)}\label{tab:api_real}\\
+\toprule
+\textbf{\#} & \textbf{Operación} & \textbf{Método} & \textbf{HTTP} & \textbf{Tiempo (ms)} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{\#} & \textbf{Operación} & \textbf{Método} & \textbf{HTTP} & \textbf{Tiempo (ms)} \\
+\midrule
+\endhead
+1 & Verificación de conexión (\texttt{/restconf}) & GET & 200 & 660 \\
+2 & Consulta de interfaces & GET & 200 & 251 \\
+3 & Estado operativo (\texttt{interfaces-state}) & GET & 200 & 403 \\
+4 & Consulta de \texttt{Loopback109} & GET & 200 & 205 \\
+5 & Estado de \texttt{Loopback109} & GET & 200 & 178 \\
+6 & Cambio de descripción de \texttt{Loopback109} & PATCH & 204 & 942 \\
+7 & Verificación posterior & GET & 200 & 162 \\
+8 & Restauración de la descripción original & PATCH & 204 & 580 \\
+9 & Verificación posterior & GET & 200 & 162 \\
+10 & Habilitación de \texttt{GigabitEthernet2} & PATCH & 204 & 638 \\
+11 & Verificación posterior & GET & 200 & 176 \\
+\bottomrule
+\end{longtable}
+
+Las once solicitudes terminaron con el código esperado. Antes de cada cambio, la aplicación mostró el método, el endpoint y el cuerpo JSON exactos (Figuras~\ref{fig:real_conf_marco} y \ref{fig:real_conf_default}). El cuerpo enviado al router es idéntico en estructura al usado con el simulador.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{cisco_loopback109_Marco}
+  \caption{Confirmación previa al PATCH que cambia la descripción de Loopback109 en el router real.}
+  \label{fig:real_conf_marco}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{cisco_loopback109_Default}
+  \caption{Confirmación previa al PATCH que restaura la descripción original de Loopback109.}
+  \label{fig:real_conf_default}
+\end{figure}
+
+\textbf{Estado administrativo frente a estado operativo.} Al habilitar \texttt{GigabitEthernet2} (Figura~\ref{fig:real_conf_gi2}), su estado administrativo pasó a \texttt{up}, pero el estado operativo reportado por el router fue \texttt{lower-layer-down} (Figura~\ref{fig:real_gi2}). La hoja \texttt{enabled} (\texttt{rw}) expresa la intención configurada, mientras que \texttt{oper-status} (\texttt{ro}) refleja la condición real de la interfaz. En este caso, la capa inferior no tiene enlace porque nada está conectado a esa interfaz virtual. \texttt{lower-layer-down} es uno de los valores definidos en la enumeración \texttt{oper-status} de \texttt{ietf-interfaces} \parencite{rfc8343}. Este comportamiento no puede observarse en el simulador, que deriva el estado operativo directamente de la configuración. Al finalizar, la interfaz se deshabilitó nuevamente para dejar el equipo en su estado original.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{cisco_GB_habilitar_deshabilitar}
+  \caption{Confirmación previa al PATCH que habilita GigabitEthernet2 (\texttt{"enabled": true}).}
+  \label{fig:real_conf_gi2}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\textwidth]{cisco_GB_sim}
+  \caption{GigabitEthernet2 habilitada: estado administrativo \texttt{up} y estado operativo \texttt{lower-layer-down} reportado por el router.}
+  \label{fig:real_gi2}
+\end{figure}
+
 \subsection{Análisis cuantitativo}\label{sec:cuantitativo}
 \textbf{Tiempos de respuesta.} Se midió cada operación 50 veces contra el simulador ejecutado en el mismo equipo (127.0.0.1), descartando una solicitud inicial de calentamiento. Los resultados se presentan en la Tabla~\ref{tab:tiempos}.
 
@@ -952,6 +1034,8 @@ PATCH + GET de verificación & 4,41 & 4,45 & 0,51 & 5,09 & 5,57 \\
 \end{table}
 
 Las tres solicitudes individuales tienen tiempos similares, alrededor de 2~ms, y el cambio completo con verificación tarda aproximadamente el doble porque implica dos solicitudes. El máximo de 7,43~ms en el GET individual es un valor aislado: su mediana es 1,96~ms y su percentil 95 es 2,36~ms. Estos valores \textbf{no representan el tiempo de un router real}, en el que influyen la latencia de la red, el establecimiento de TLS y el procesamiento del dispositivo; solo muestran que el costo de la verificación posterior es una solicitud adicional.
+
+\textbf{Comparación con el router real.} Contra el Catalyst 8000v, las consultas GET tardaron entre 162 y 403~ms, y los PATCH entre 580 y 942~ms (Tabla~\ref{tab:api_real}). Esto es unas dos órdenes de magnitud más que en el simulador, donde las solicitudes toman alrededor de 2~ms. La diferencia se explica por tres factores: el viaje de ida y vuelta a través de la VPN hasta el centro de datos de Cisco, el cifrado TLS y el procesamiento del propio IOS XE. La primera solicitud (660~ms) fue más lenta porque incluye el establecimiento de la sesión TLS. Las escrituras son las más costosas porque el dispositivo valida el cambio contra el modelo y lo aplica a la configuración en ejecución. Un cambio completo con su verificación tomó entre 742 y 1104~ms, un tiempo todavía adecuado para una operación interactiva. A diferencia de la Tabla~\ref{tab:tiempos}, estos valores son ejecuciones únicas y no un promedio estadístico.
 
 \textbf{Entradas frente a salidas.} Para cambiar la descripción de una interfaz por CLI se requieren cinco comandos (\texttt{enable}, \texttt{configure terminal}, \texttt{interface}, \texttt{description} y \texttt{end}), más un \texttt{show} para verificar el resultado de forma visual. Con la aplicación, la misma operación es una sola solicitud PATCH seguida de un GET de verificación automático, cuyo resultado se compara con lo esperado y queda registrado con fecha, código HTTP y tiempo. De las 13 solicitudes de la Tabla~\ref{tab:api}, las 6 válidas (escenarios 1 a 5 y 13) fueron aceptadas, y las 6 que contenían un error del cliente o del recurso (escenarios 6 a 11) fueron rechazadas con el código esperado: 404, 401, 400, 400, 403 y 405. El escenario 12 corresponde a un error 500 provocado deliberadamente en el simulador para comprobar su manejo.
 
@@ -994,7 +1078,9 @@ Este resultado obedece al simulador y no al modelo de router seleccionado: segú
 
 Se evaluó también el \textit{Network Controller} de Packet Tracer, que ofrece una API REST accesible desde el equipo anfitrión \parencite{pt_controller}. Se descartó porque esa API es propia del controlador, no sigue el RFC 8040 y no utiliza modelos YANG \parencite{rfc8040}.
 
-El equipo no dispone de routers físicos compatibles. Por ello la solución se dividió en dos componentes independientes: el laboratorio de Packet Tracer, configurado y verificado mediante CLI, y la aplicación RESTCONF, probada contra un simulador local que sigue el modelo \texttt{ietf-interfaces} y el comportamiento HTTP del RFC 8040. La aplicación conserva un modo de conexión real, listo para usarse con un dispositivo IOS XE que tenga RESTCONF habilitado, pero ese modo no pudo ejecutarse por falta de equipo. No existe sincronización automática entre el simulador y Packet Tracer; la comparación entre ambos se realizó manualmente.
+El equipo no dispone de routers físicos compatibles. Por ello la solución se dividió en dos componentes independientes: el laboratorio de Packet Tracer, configurado y verificado mediante CLI, y la aplicación RESTCONF, probada contra un simulador local que sigue el modelo \texttt{ietf-interfaces} y el comportamiento HTTP del RFC 8040. La aplicación conserva un modo de conexión real, que finalmente se validó contra un router Catalyst 8000v virtual de Cisco DevNet Sandbox (Sección~\ref{sec:real}).
+Este enfoque permitió avanzar en la validación de la aplicación RESTCONF sin depender de hardware físico.
+No existe sincronización automática entre el simulador y Packet Tracer; la comparación entre ambos se realizó manualmente.
 
 \textbf{Otras limitaciones.}
 \begin{itemize}
@@ -1003,6 +1089,8 @@ El equipo no dispone de routers físicos compatibles. Por ello la solución se d
   \item El simulador funciona por HTTP en el equipo local; un dispositivo real exige HTTPS y la validación de su certificado.
   \item Los tiempos medidos corresponden al equipo local y no son extrapolables a un router.
   \item Packet Tracer no acepta algunos comandos de IOS como \texttt{terminal length 0} ni \texttt{show running-config interface}, y el botón \textit{Copy} de su CLI no copia el texto, por lo que las salidas se transcribieron.
+  \item En el router real se desactivó la verificación del certificado TLS, porque el sandbox utiliza un certificado autofirmado.
+  \item El acceso al router real depende de una reserva temporal y de una VPN; las mediciones contra él son ejecuciones únicas y no un promedio estadístico.
 \end{itemize}
 
 % ----------------------------------------------------------------------
@@ -1012,17 +1100,18 @@ El equipo no dispone de routers físicos compatibles. Por ello la solución se d
 
 \subsection{Conclusiones}
 \begin{enumerate}
-  \item La programabilidad basada en modelos separa la estructura de los datos (YANG) del protocolo que los transporta (NETCONF o RESTCONF). Esta separación permitió que la misma aplicación funcione contra el simulador y que esté preparada para un dispositivo IOS XE sin cambiar su código.
+  \item La programabilidad basada en modelos separa la estructura de los datos (YANG) del protocolo que los transporta (NETCONF o RESTCONF). Esta separación permitió que la misma aplicación funcione contra el simulador y contra un router IOS XE real sin cambiar su código.
   \item RESTCONF resultó adecuado para el caso de uso porque reutiliza HTTP, JSON y herramientas conocidas como Postman y \texttt{requests}. Las operaciones necesarias se resolvieron con GET, PATCH y PUT, y los errores con los códigos HTTP del RFC 8040.
   \item La elección entre PATCH y PUT depende del modelo: PATCH es apropiado para hojas simples como la descripción, mientras que para la dirección IP, cuya clave de lista es la propia dirección, fue necesario reemplazar la entrada completa con PUT.
   \item El laboratorio cumplió su objetivo: los tres routers convergieron con OSPF y se verificó la conectividad extremo a extremo entre las dos LAN. Sin embargo, se comprobó que Packet Tracer no implementa RESTCONF, por lo que no puede usarse como dispositivo administrado por la aplicación.
-  \item Los objetivos del caso de uso se cumplieron en el entorno simulado: la aplicación consulta interfaces, valida y confirma los cambios, los verifica con un GET posterior, maneja los errores definidos y registra las operaciones sin credenciales. La validación contra un dispositivo real quedó pendiente por falta de equipo.
+  \item Los objetivos del caso de uso se cumplieron tanto en el simulador como en un router Catalyst 8000v real con IOS XE 17.12.02: la aplicación consultó interfaces, validó y confirmó los cambios, los verificó con un GET posterior, manejó los errores definidos y registró las operaciones sin credenciales. Las cinco pruebas contra el dispositivo real se aprobaron sin modificar el código.
   \item Confirmar cada cambio antes de enviarlo y verificarlo después tiene un costo pequeño (una solicitud adicional) y aporta trazabilidad, a diferencia de la verificación visual por CLI.
+  \item El dispositivo real permitió observar la diferencia entre configuración y estado que define el modelo YANG: una interfaz habilitada (\texttt{enabled} igual a \texttt{true}) puede seguir sin operar (\texttt{lower-layer-down}). Por eso la verificación de un cambio debe considerar ambos datos.
 \end{enumerate}
 
 \subsection{Recomendaciones}
 \begin{enumerate}
-  \item Ejecutar el modo real contra un IOS XE virtual gratuito de Cisco DevNet Sandbox, que ofrece equipos con RESTCONF habilitado \parencite{devnet_sandbox}, usando las pruebas de \texttt{tests/test\_real\_device.py}.
+  \item Repetir las mediciones contra el router real con un número mayor de muestras y validar su certificado TLS mediante una autoridad de certificación de confianza, en lugar de desactivar la verificación.
   \item Para un laboratorio propio, usar imágenes virtuales de IOS XE (Catalyst 8000V) en emuladores como Cisco Modeling Labs o GNS3, en lugar de Packet Tracer.
   \item Extender la aplicación a varios dispositivos con un inventario y ejecutar las consultas en paralelo.
   \item Incorporar control de cambios: comparación de configuración antes y después, aprobación previa y reversión automática si la verificación falla.
@@ -1163,6 +1252,7 @@ Investigación bibliográfica & Giancarlo Vega & 25/11/2026 & Completada; Secci�
 Diseño y configuración de la topología & José Manuel Loría & 25/11/2026 & Completada; \texttt{lab/} \\
 Prueba de RESTCONF en Packet Tracer & José Manuel Loría & 25/11/2026 & Completada; carpeta \texttt{lab/} \\
 Modelos YANG y simulador & Marco Villatoro & 25/11/2026 & Completada; \texttt{models/} y \texttt{simulator/} \\
+Validación en router real (DevNet Sandbox) & Marco Villatoro & 25/11/2026 & Completada; Sección~\ref{sec:real} \\
 Desarrollo de la aplicación & César Mora & 25/11/2026 & Completada; \texttt{application/} \\
 Pruebas, Postman y evidencias & Mariana Rojas & 25/11/2026 & Completada; \texttt{tests/}, \texttt{postman/} y \texttt{evidence/} \\
 Revisión final del informe & Giancarlo Vega & \pendiente{fecha} & En curso \\
@@ -1257,10 +1347,12 @@ Pruebas finales de la aplicación, revisión de resultados, preparación de
 capturas de la interfaz y documentación de la comparación entre CLI y aplicación. \\
 
 Marco Villatoro Chacón &
-25/11/2026 & 5 &
-Revisión del simulador RESTCONF, estructura de los modelos YANG,
-validaciones, funcionamiento de los endpoints y consistencia con la
-arquitectura del proyecto. \\
+25/11/2026 & 3 &
+Estudio de la especificación y del repositorio; ejecución del simulador y
+de la aplicación; exploración de los modelos YANG con pyang; pruebas GET,
+PATCH y de errores (400 y 403) con curl; reserva del sandbox Catalyst 8000v,
+configuración de la VPN y validación del modo real (5/5 pruebas aprobadas y
+operaciones con la aplicación). \\
 
 Marco Villatoro Chacón &
 26/11/2026 & 3 &
