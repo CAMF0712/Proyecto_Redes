@@ -795,6 +795,27 @@ GigabitEthernet0/0/2   unassigned      YES unset  administratively down down
 Loopback0              1.1.1.1         YES manual up                    up
 \end{lstlisting}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../../evidence/packet_tracer/show_ip_interface_brief_R1.png}
+  \caption{Estado administrativo y operativo de las interfaces de R1 en Packet Tracer.}
+  \label{fig:ip_int_R1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../../evidence/packet_tracer/show_ip_interface_brief_R2.png}
+  \caption{Estado administrativo y operativo de las interfaces de R2 en Packet Tracer.}
+  \label{fig:ip_int_R2}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../../evidence/packet_tracer/show_ip_interface_brief_R3.png}
+  \caption{Estado administrativo y operativo de las interfaces de R3 en Packet Tracer.}
+  \label{fig:ip_int_R3}
+\end{figure}
+
 \begin{lstlisting}[language={},caption={R2: vecinos OSPF},label={lst:r2ospf}]
 R2>show ip ospf neighbor
 
@@ -802,6 +823,13 @@ Neighbor ID     Pri   State           Dead Time   Address         Interface
 3.3.3.3           1   FULL/DR         00:00:30    10.0.23.2       GigabitEthernet0/0/1
 1.1.1.1           1   FULL/BDR        00:00:33    10.0.12.1       GigabitEthernet0/0/0
 \end{lstlisting}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../../evidence/packet_tracer/show_ip_ospf_neighfor_R2.png}
+  \caption{Verificación de adyacencias OSPF en estado FULL.}
+  \label{fig:ip_ospf_R2}
+\end{figure}
 
 \begin{lstlisting}[language={},caption={R1: rutas aprendidas por OSPF},label={lst:r1route}]
 R1#show ip route ospf
@@ -813,6 +841,13 @@ O       3.3.3.3 [110/3] via 10.0.12.2, 00:04:37, GigabitEthernet0/0/0
 O       10.0.23.0 [110/2] via 10.0.12.2, 00:04:47, GigabitEthernet0/0/0
 O    192.168.20.0 [110/3] via 10.0.12.2, 00:04:37, GigabitEthernet0/0/0
 \end{lstlisting}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../../evidence/packet_tracer/show_ip_route_R1.png}
+  \caption{Tabla de enrutamiento con rutas aprendidas vía OSPF entre redes remotas.}
+  \label{fig:ip_route_R1}
+\end{figure}
 
 \begin{lstlisting}[language={},caption={PC1: conectividad extremo a extremo hacia PC2},label={lst:ping}]
 C:\>ping 192.168.20.10
@@ -828,6 +863,13 @@ C:\>tracert 192.168.20.10
   3   0 ms      0 ms      0 ms      10.0.23.2
   4   0 ms      0 ms      0 ms      192.168.20.10
 \end{lstlisting}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../../evidence/packet_tracer/ping_y_tracert_PC1.png}
+  \caption{Prueba de conectividad y trazado de ruta en la topología.}
+  \label{fig:ping_y_tracert_PC1}
+\end{figure}
 
 R2 mantiene adyacencias en estado \texttt{FULL} con R1 y R3, y R1 aprende por OSPF todas las redes remotas, incluida la LAN2, con costos coherentes con el número de saltos (110/2 hacia R2 y 110/3 hacia R3 y LAN2). El primer eco del ping se pierde mientras se resuelve ARP, comportamiento esperado. El valor \texttt{TTL=125} (128 menos 3) y la salida de \texttt{tracert} confirman que el tráfico atraviesa los tres routers. Las interfaces G0/0/2 aparecen \texttt{administratively down}, como se configuró.
 
@@ -926,6 +968,27 @@ R1(config)#ip http secure-server
 R1(config)#ip http server
 % Invalid input detected at '^' marker.
 \end{lstlisting}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../../evidence/packet_tracer/restconf_rechazado_ISR4331.png}
+  \caption{Rechazo de comandos de configuración RESTCONF y servicios HTTP/HTTPS en el router ISR4331 en Packet Tracer.}
+  \label{fig:restconf_rechazado_ISR4331}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../../evidence/packet_tracer/show_version_ISR4331.png}
+  \caption{Verificación de versión IOS (show version) en el router ISR4331 dentro de Packet Tracer.}
+  \label{fig:show_version_ISR4331}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../../evidence/packet_tracer/restconf_rechazado_2901.png}
+  \caption{. Comprobación del rechazo de comandos RESTCONF en router adicional (2901) en Packet Tracer.}
+  \label{fig:restconf_rechazado_2901}
+\end{figure}
 
 Este resultado obedece al simulador y no al modelo de router seleccionado: según \texttt{show version}, el ISR4331 de Packet Tracer reporta Cisco IOS XE 16.6.4, y en equipos físicos Cisco documenta soporte de RESTCONF para la serie ISR 4000 a partir de IOS XE 16.3 \parencite{cisco_restconf}. Packet Tracer emula un subconjunto de comandos orientado a la enseñanza de configuración por CLI y no implementa el servidor HTTP de los routers, el agente RESTCONF ni los modelos YANG.
 
