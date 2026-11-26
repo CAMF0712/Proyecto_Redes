@@ -32,14 +32,14 @@ resultado de una integración.
 
 | Interfaz | Campo | Packet Tracer — R1 (CLI) | Aplicación — modo: ________ | ¿Coinciden? |
 |---|---|---|---|---|
-| G0/0/0 | IP / prefijo | | | |
-| G0/0/0 | Estado administrativo | | | |
-| G0/0/0 | Estado operativo | | | |
-| G0/0/1 | IP / prefijo | | | |
-| G0/0/1 | Descripción | | | |
-| G0/0/1 | Estado administrativo | | | |
-| G0/0/2 | Estado administrativo | | | |
-| Loopback0 | IP / prefijo | | | |
+| G0/0/0 | IP / prefijo | `10.0.12.1/30 (10.0.12.1 255.255.255.252)` | | |
+| G0/0/0 | Estado administrativo | `up (no shutdown, habilitada)` | | |
+| G0/0/0 | Estado operativo | `up (Protocol up, vecino OSPF 2.2.2.2 FULL)` | | |
+| G0/0/1 | IP / prefijo | `192.168.10.1/24 (192.168.10.1 255.255.255.0)` | | |
+| G0/0/1 | Descripción | `LAN1 - red de usuarios` | | |
+| G0/0/1 | Estado administrativo | `up (no shutdown, habilitada)` | | |
+| G0/0/2 | Estado administrativo | `administratively down (shutdown, deshabilitada)` | | |
+| Loopback0 | IP / prefijo | `1.1.1.1/32 (1.1.1.1 255.255.255.255)` | | |
 
 ## Equivalencias entre CLI y modelo YANG
 
