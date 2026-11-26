@@ -69,3 +69,38 @@ def test_parse_acepta_formato_objeto_de_ios_xe():
         "ietf-ip:ipv4": {"address": [{"ip": "10.10.20.48", "netmask": "255.255.255.0"}]}}}
     info = parse_config(data)[0]
     assert info.name == "GigabitEthernet1" and info.prefix == 24
+
+
+def test_inicio_local_levanta_y_detiene_el_simulador(monkeypatch):
+    import sys
+
+    import requests
+    import werkzeug.serving
+
+    import application.dashboard
+    import main
+
+    original_make_server = werkzeug.serving.make_server
+    servers = []
+
+    def make_server(host, port, app, **kwargs):
+        server = original_make_server(host, 0, app, **kwargs)
+        servers.append(server)
+        return server
+
+    def run(mode):
+        assert mode == main.MODE_SIM
+        response = requests.get(
+            f"http://127.0.0.1:{servers[0].server_port}/restconf",
+            auth=("admin", "admin123"), timeout=5,
+        )
+        assert response.status_code == 200
+        assert response.headers.get("X-Simulator")
+
+    monkeypatch.setattr(werkzeug.serving, "make_server", make_server)
+    monkeypatch.setattr(application.dashboard, "run", run)
+    monkeypatch.setenv("SIM_USER", "admin")
+    monkeypatch.setenv("SIM_PASS", "admin123")
+    monkeypatch.setattr(sys, "argv", ["main.py", "--local"])
+    main.main()
+    assert servers[0].socket.fileno() == -1

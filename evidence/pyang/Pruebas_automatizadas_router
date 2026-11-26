@@ -1,0 +1,29 @@
+$env:RESTCONF_HOST="10.10.20.48"
+>> $env:RESTCONF_USER="developer"
+>> $env:RESTCONF_PASS="C1sco12345"
+>> $env:RESTCONF_VERIFY="false"
+>> $env:RESTCONF_ALLOW_WRITE="1"
+>> $env:RESTCONF_IFACE="Loopback109"
+>> python -m pytest tests/test_real_device.py -v
+=============================================================================================================== test session starts ===============================================================================================================
+platform win32 -- Python 3.13.2, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\mavic\OneDrive\Escritorio\Proyecto_Redes\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\mavic\OneDrive\Escritorio\Proyecto_Redes
+collected 5 items                                                                                                                                                                                                                                  
+
+tests/test_real_device.py::test_real_descubrimiento PASSED                                                                                                                                                                                   [ 20%]
+tests/test_real_device.py::test_real_get_interfaces PASSED                                                                                                                                                                                   [ 40%]
+tests/test_real_device.py::test_real_get_interfaz_individual PASSED                                                                                                                                                                          [ 60%]
+tests/test_real_device.py::test_real_interfaz_inexistente PASSED                                                                                                                                                                             [ 80%]
+tests/test_real_device.py::test_real_patch_descripcion_y_restauracion PASSED                                                                                                                                                                 [100%]
+
+================================================================================================================ warnings summary =================================================================================================================
+tests/test_real_device.py::test_real_get_interfaces
+tests/test_real_device.py::test_real_get_interfaz_individual
+tests/test_real_device.py::test_real_interfaz_inexistente
+tests/test_real_device.py::test_real_patch_descripcion_y_restauracion
+  C:\Users\mavic\OneDrive\Escritorio\Proyecto_Redes\.venv\Lib\site-packages\urllib3\connectionpool.py:1129: InsecureRequestWarning: Unverified HTTPS request is being made to host '10.10.20.48'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+========================================================================================================== 5 passed, 4 warnings in 5.38s ==========================================================================================================
