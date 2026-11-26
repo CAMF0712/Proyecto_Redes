@@ -78,11 +78,11 @@ falla. Restaurar con `no shutdown`.
 
 ## Lista de evidencias a capturar
 
-- [ ] Topología completa (vista lógica) — `topologia.png`
-- [ ] `show ip interface brief` de R1, R2 y R3
-- [ ] `show running-config` de R1 (sección de interfaces y OSPF)
-- [ ] `show ip ospf neighbor` de R2
-- [ ] `show ip route` de R1
-- [ ] `ping` y `tracert` de PC1 a PC2
-- [ ] Prueba de `shutdown` / `no shutdown`
-- [ ] Rechazo de `restconf` en el ISR4331 (ver `prueba_restconf_packet_tracer.md`)
+- [x] Topología completa (vista lógica) — `topologia.png`
+- [x] `show ip interface brief` de R1, R2 y R3
+- [x] `show running-config` de R1 (sección de interfaces y OSPF)
+- [x] `show ip ospf neighbor` de R2
+- [x] `show ip route` de R1
+- [x] `ping` y `tracert` de PC1 a PC2
+- [x] Prueba de `shutdown` / `no shutdown`
+- [x] Rechazo de `restconf` en el ISR4331 (ver `prueba_restconf_packet_tracer.md`)
