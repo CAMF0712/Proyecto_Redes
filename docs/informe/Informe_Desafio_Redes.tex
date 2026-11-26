@@ -937,6 +937,13 @@ Los errores se devuelven con la estructura del RFC 8040. Por ejemplo, la consult
   \label{fig:gui3}
 \end{figure}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\textwidth]{04_error_401.png}
+  \caption{Manejo de credenciales incorrectas: el simulador responde HTTP 401 y la aplicación muestra un mensaje controlado sin registrar la contraseña.}
+  \label{fig:gui4}
+\end{figure}
+
 \textbf{Pruebas automatizadas.} La ejecución de \texttt{python -m pytest -v} terminó con \textbf{39 pruebas aprobadas y 5 omitidas}. Las omitidas son las pruebas contra un dispositivo real, que se ejecutan solo si se configura la variable \texttt{RESTCONF\_HOST}. La misma suite se ejecutó con Python 3.12 y con Python 3.10 con el mismo resultado. La colección de Postman se comprobó reproduciendo sus siete solicitudes contra el simulador; todas devolvieron el código esperado.
 
 \subsection{Resultados contra un dispositivo IOS XE real}\label{sec:real}
