@@ -293,8 +293,6 @@
 }
 \lstset{style=codigo}
 
-\newcommand{\pendiente}[1]{\textcolor{red}{\textbf{[PENDIENTE: #1]}}}
-
 \begin{document}
 \justifying
 \setlength{\emergencystretch}{3em}
@@ -762,9 +760,9 @@ P08 & Solicitud inválida & JSON mal formado e IP fuera del modelo & HTTP 400 en
 Además del plan anterior, el conjunto de pruebas automatizadas (pytest) cubre los errores 403, 405, 415 y 500, el agotamiento del tiempo de espera, la falta de conectividad, las respuestas malformadas, el cambio de IP con PUT, la habilitación y deshabilitación de interfaces y el registro de operaciones.
 
 \subsection{Video de demostración}
-\textbf{Enlace:} \pendiente{insertar el enlace al video final.}
+\textbf{Enlace:} \url{https://youtu.be/jCjoDzJ0NFg}
 
-El video tendrá una duración máxima de diez minutos. Todas las personas integrantes participan y muestran su cámara durante su parte. El guion se resume en la Tabla~\ref{tab:guion}; la versión detallada está en \texttt{docs/guion\_demo.md} del repositorio.
+El video se grabó el 26 de noviembre de 2026. La duración máxima establecida es de diez minutos. El guion se resume en la Tabla~\ref{tab:guion}; la versión detallada está en \texttt{docs/guion\_demo.md} del repositorio.
 
 \begin{longtable}{p{2.1cm}p{3.6cm}p{8.4cm}}
 \caption{Guion del video de demostración}\label{tab:guion}\\
@@ -1262,8 +1260,8 @@ Modelos YANG y simulador & Marco Villatoro & 25/11/2026 & Completada; \texttt{mo
 Validación en router real (DevNet Sandbox) & Marco Villatoro & 25/11/2026 & Completada; Sección~\ref{sec:real} \\
 Desarrollo de la aplicación & César Mora & 25/11/2026 & Completada; \texttt{application/} \\
 Pruebas, Postman y evidencias & Mariana Rojas & 25/11/2026 & Completada; \texttt{tests/}, \texttt{postman/} y \texttt{evidence/} \\
-Revisión final del informe & Giancarlo Vega & \pendiente{fecha} & En curso \\
-Grabación del video & Mariana Rojas & \pendiente{fecha} & Pendiente \\
+Revisión final del informe & Giancarlo Vega & 26/11/2026 & Completada; informe y PDF final \\
+Grabación del video & Mariana Rojas & 26/11/2026 & Completada; enlace en la sección de video de demostración \\
 \bottomrule
 \end{longtable}
 
@@ -1275,33 +1273,29 @@ Fecha: 25 de noviembre de 2026\\
 Participantes: Giancarlo, José, César, Marco, Mariana\\
 Temas tratados:
 \begin{itemize}
-    \item Organización del equipo para completar los entregables pendientes
-    antes de la fecha de entrega.
-    \item Revisión de las tareas pendientes identificadas en la guía del equipo.
+    \item Organización del equipo para cerrar los entregables antes de la fecha de entrega.
+    \item Revisión de las tareas identificadas en la guía del equipo.
     \item Coordinación de la revisión final del informe, evidencias y video de demostración.
     \item Distribución y seguimiento de las responsabilidades asignadas a cada integrante.
 \end{itemize}
 
 Acuerdos y responsables:
 \begin{itemize}
-    \item \textbf{Giancarlo Vega Marín:} coordinación del cierre, revisión y
+    \item \textbf{Giancarlo Vega Marín:} coordinó el cierre, la revisión y la
     compilación del informe final.
-    \item \textbf{José Manuel Loría Cordero:} completar y recopilar las
-    evidencias pendientes del laboratorio de Packet Tracer.
-    \item \textbf{César Andrés Mora Fajardo:} completar las evidencias de la
-    aplicación y la tabla de comparación entre CLI y aplicación.
-    \item \textbf{Marco Villatoro Chacón:} preparar y completar los
-    entregables correspondientes al simulador y los modelos YANG.
-    \item \textbf{Mariana Rojas Rojas:} completar las evidencias de pruebas,
-    Postman y coordinar la grabación del video de demostración.
-    \item Todos los integrantes: completar sus bitácoras individuales,
-    participar en el video y realizar la autoevaluación y coevaluación.
+    \item \textbf{José Manuel Loría Cordero:} recopiló las evidencias del
+    laboratorio de Packet Tracer.
+    \item \textbf{César Andrés Mora Fajardo:} preparó las evidencias de la
+    aplicación y la comparación entre CLI y aplicación.
+    \item \textbf{Marco Villatoro Chacón:} preparó los entregables del
+    simulador y los modelos YANG.
+    \item \textbf{Mariana Rojas Rojas:} organizó las evidencias de pruebas y
+    Postman, y coordinó la grabación del video de demostración.
+    \item Todos los integrantes completaron sus bitácoras, participaron en el
+    video y realizaron la autoevaluación y coevaluación.
 \end{itemize}
 
 \vspace{0.4cm}
-
-\textbf{Reuniones adicionales}\par
-\pendiente{Registrar únicamente si se realizan reuniones adicionales antes de la entrega.}
 
 \subsection{Bitácora individual}
 
@@ -1330,7 +1324,7 @@ organización de los entregables y preparación del documento en LaTeX. \\
 Giancarlo Vega Marín &
 26/11/2026 & 4 &
 Revisión final del informe, corrección de formato y referencias, integración
-de pendientes, compilación del PDF definitivo y verificación de la entrega. \\
+de los ajustes finales, compilación del PDF definitivo y verificación de la entrega. \\
 
 José Manuel Loría Cordero &
 25/11/2026 & 4 &
@@ -1381,14 +1375,14 @@ de la grabación del video de demostración y revisión de los entregables. \\
 
 
 \subsection{Evaluación de la eficiencia del trabajo en equipo}
-Cada integrante debe realizar una autoevaluación y una coevaluación honesta y fundamentada sobre su desempeño y el de sus compañeros. Además, la consigna establece completar el formulario individual indicado por el profesor. El formulario debe ser completado por cada estudiante una sola vez:
+Cada integrante realizó una autoevaluación y una coevaluación honesta y fundamentada sobre su desempeño y el de sus compañeros. Además, cada estudiante completó una vez el formulario individual indicado por el profesor. Las evidencias se presentan a continuación:
 
 \url{https://docs.google.com/forms/d/e/1FAIpQLSfC_crNLh92D2pbcmpS1f_qeWVgdBkoXvHkjbXpWi53Q9b6UQ/viewform}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{../../evidence/evaluacion/evaluacion_cesar.jpg}
-	\caption{. Evidencia - César.}
+  \caption{Comprobante de evaluación de César.}
 	\label{fig:evaluacion_cesar}
 \end{figure}
 
@@ -1396,28 +1390,28 @@ Cada integrante debe realizar una autoevaluación y una coevaluación honesta y 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{../../evidence/evaluacion/evaluacion_gvm.jpg}
-	\caption{. Evidencia - Giancarlo.}
+  \caption{Comprobante de evaluación de Giancarlo.}
 	\label{fig:evaluacion_gvm}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.55\textwidth]{../../evidence/evaluacion/evaluacion_mariana.jpg}
-	\caption{. Evidencia - Mariana.}
+  \caption{Comprobante de evaluación de Mariana.}
 	\label{fig:evaluacion_mariana}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.55\textwidth]{../../evidence/evaluacion/evaluacion_jose.jpg}
-	\caption{. Evidencia - Jose.}
+  \caption{Comprobante de evaluación de José.}
 	\label{fig:evaluacion_jose}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.55\textwidth]{../../evidence/evaluacion/evaluacion_marco.jpg}
-	\caption{. Evidencia - Marco.}
+  \caption{Comprobante de evaluación de Marco.}
 	\label{fig:evaluacion_marco}
 \end{figure}
 
